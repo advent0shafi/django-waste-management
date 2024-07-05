@@ -6,6 +6,7 @@ from .models import Scrap, ScrapOrder, ScrapCollected
 from .serializers import ScrapSerializer, ScrapOrderSerializer, ScrapCollectedSerializer
 
 class ScrapViewSet(viewsets.ModelViewSet):
+    
     queryset = Scrap.objects.all()
     serializer_class = ScrapSerializer
 

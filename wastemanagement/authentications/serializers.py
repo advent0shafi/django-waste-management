@@ -7,8 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'username', 'email', 'password', 'profile_img', 'city', 'state', 'postal_code', 
-            'country', 'is_worker', 'address_line_1', 'address_line_2', 'is_active', 'is_verified', 
+            'id', 'username', 'email', 'password', 'profile_img', 'is_worker', 'address', 'is_active', 'is_verified', 
             'phone_number', 'roles'
         ]
         extra_kwargs = {
@@ -20,6 +19,15 @@ class UserSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            if attr == 'password':
+                instance.set_password(value)
+            else:
+                setattr(instance, attr, value)
         instance.save()
         return instance
 
